@@ -42,7 +42,16 @@ namespace kupo {
             }
         }
         private void SetLastCard(Card c) {
-
+            if(LastCards == null)
+            {
+                LastCards = deck.deck[0];
+                deck.deck.RemoveAt(0);
+            }else
+            {
+                LastCards = c;
+            }
+            LastCardText.Text = LastCards.Value.ToString();
+            LastCardStack.BackgroundColor = LastCards.Color;
         }
         public void ComputerMove() {
 
