@@ -24,10 +24,35 @@ namespace kupo {
         }
 
         public void RenderPlayerCards() {
+            if (win)
+                return;
+            PlayerCards.Children.Clear();
+            playerCards=playerCards.OrderBy(z=>z.Color.ToString()).ToList();
+            foreach (Card card in playerCards) {
+                Button c = card.Render();
+                c.BindingContext = card;
+                c.Clicked += PlayerCardClick;
+                if(playerAction) {
+                    if(card.Color==LastCards.Color|| card.Value==LastCards.Value||card.Action==SpecialActions.Color) {
+                        c.BorderColor =Color.Black;
+                        c.BorderWidth = 2;
+                    }
+                }
+                PlayerCards.Children.Add(c);
+            }
+            ComputerCards.Text = computerCards.Count.ToString() + " Ilosc kart przeciwnika";
 
         }
         private void PlayerCardClick(object sender, EventArgs e) {
-
+            if(win) return;
+            Card c=(sender as Button).BindingContext as Card;
+            if((sender as Button).BorderColor == Color.Black) {
+                SetLastCard(c);
+                playerCards.Remove(c);
+                playerAction = false;
+                Wincheck();
+                ComputerMove();
+            }
         }
         private void Wincheck() {
 
