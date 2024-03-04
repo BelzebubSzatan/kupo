@@ -48,7 +48,24 @@ namespace kupo {
 
         }
         public void SpecialCardAction(List<Card> target,Card c) {
-
+            if (deck.deck.Count < 10)
+                deck.GenerateDeck();
+            if(c.Action == SpecialActions.AddTwo)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    target.Add(deck.deck[i]);
+                    deck.deck.RemoveAt(i);
+                }
+            }
+            if(c.Action == SpecialActions.AddFour)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    target.Add(deck.deck[i]);
+                    deck.deck.RemoveAt(i);
+                }
+            }
         }
         private void Button_Clicked(object sender, EventArgs e)
         {
