@@ -29,8 +29,17 @@ namespace kupo {
         private void PlayerCardClick(object sender, EventArgs e) {
 
         }
-        private void Wincheck() {
-
+        private async void Wincheck() {
+            if(playerCards.Count == 0)
+            {
+                win = true;
+                await DisplayAlert("Wygrana", "Wygrał gracz", "OK");
+            }
+            if(computerCards.Count == 0)
+            {
+                win = true;
+                await DisplayAlert("Wygrana", "Wygrał komputer", "OK");
+            }
         }
         private void SetLastCard(Card c) {
 
