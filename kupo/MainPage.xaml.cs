@@ -52,7 +52,13 @@ namespace kupo {
         }
         private void Button_Clicked(object sender, EventArgs e)
         {
-
+            if(playerAction&&!win)
+            {
+                playerCards.Add(deck.deck[0]);
+                deck.deck.RemoveAt(0);
+                playerAction = false;
+                ComputerMove();
+            }
         }
     }
 }
