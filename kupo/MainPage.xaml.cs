@@ -53,8 +53,27 @@ namespace kupo {
             LastCardText.Text = LastCards.Value.ToString();
             LastCardStack.BackgroundColor = LastCards.Color;
         }
-        public void ComputerMove() {
-
+        public async void ComputerMove() {
+            if (win == true) return;
+            List<Card> possibleMove = computerCards.Where(e => e.Color.ToString() == LastCards.Color.ToString() || e.Value == LastCards.Value || e.Action == SpecialActions.Color).ToList();
+            if(possibleMove.Count>0)
+            {
+                Random r = new Random();
+                int n = r.Next(possibleMove.Count);
+                await Task.Delay(1000);
+                SetLastCard(possibleMove[n]);
+                SpecialCardAction(playerCards, possibleMove[n]);
+                ComputerAction.Text = "Komputer dał" + possibleMove[n].Value + " " + possibleMove[n].Color.ToString();
+                computerCards.Remove(possibleMove[n]);
+            }else
+            {
+                ComputerAction.Text = "Komputer dobral";
+                computerCards.Add(deck.deck[0]);
+                deck.deck.RemoveAt(0);
+            }
+            playerAction = true;
+            Wincheck();
+            RenderPlayerCards();
         }
         public void SpecialCardAction(List<Card> target,Card c) {
             if (deck.deck.Count < 10)
